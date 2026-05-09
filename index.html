@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Pentas Seni</title>
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Sembunyikan scrollbar untuk form yang lebih panjang */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-base-200 min-h-screen font-sans transition-colors duration-300"
+  >
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-md px-4 lg:px-20 sticky top-0 z-50">
+      <div class="flex-1">
+        <a class="text-xl font-bold">Pensi SCBCI '26 🎭</a>
+      </div>
+      <div class="flex-none">
+        <button class="btn btn-ghost btn-circle" onclick="toggleTheme()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center p-4 mt-6 mb-10">
+      <div class="card w-full max-w-lg bg-base-100 shadow-2xl">
+        <div class="card-body p-6 md:p-8">
+          <h2 class="card-title text-2xl font-bold text-primary mb-1">
+            Survei Kepuasan
+          </h2>
+          <p class="text-sm opacity-70 mb-6 font-light">
+            Penilaian skala: 1 (Kurang Baik) s.d 4 (Sangat Baik).
+          </p>
+
+          <form id="feedbackForm" class="space-y-6">
+            <!-- Skala Penilaian -->
+            <div class="space-y-4">
+              <!-- Q1 Acara -->
+              <div class="form-control">
+                <label class="label"
+                  ><span class="label-text font-semibold text-sm"
+                    >1. Bagaimana menurut anda tentang acara pensi hari
+                    ini?</span
+                  ></label
+                >
+                <div
+                  class="flex justify-between items-center bg-base-200/50 p-3 rounded-xl border border-base-200"
+                >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_acara"
+                      value="1"
+                      class="radio radio-primary radio-sm md:radio-md"
+                      required
+                    /><span class="text-xs font-medium">1</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_acara"
+                      value="2"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">2</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_acara"
+                      value="3"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">3</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_acara"
+                      value="4"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">4</span></label
+                  >
+                </div>
+              </div>
+
+              <!-- Q2 Konsumsi -->
+              <div class="form-control">
+                <label class="label"
+                  ><span class="label-text font-semibold text-sm"
+                    >2. Bagaimana menurut anda tentang konsumsi yang
+                    diberikan?</span
+                  ></label
+                >
+                <div
+                  class="flex justify-between items-center bg-base-200/50 p-3 rounded-xl border border-base-200"
+                >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_konsumsi"
+                      value="1"
+                      class="radio radio-primary radio-sm md:radio-md"
+                      required
+                    /><span class="text-xs font-medium">1</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_konsumsi"
+                      value="2"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">2</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_konsumsi"
+                      value="3"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">3</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_konsumsi"
+                      value="4"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">4</span></label
+                  >
+                </div>
+              </div>
+
+              <!-- Q3 Tiket -->
+              <div class="form-control">
+                <label class="label"
+                  ><span class="label-text font-semibold text-sm"
+                    >3. Bagaimana menurut anda tentang penjualan tiket?</span
+                  ></label
+                >
+                <div
+                  class="flex justify-between items-center bg-base-200/50 p-3 rounded-xl border border-base-200"
+                >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_tiket"
+                      value="1"
+                      class="radio radio-primary radio-sm md:radio-md"
+                      required
+                    /><span class="text-xs font-medium">1</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_tiket"
+                      value="2"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">2</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_tiket"
+                      value="3"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">3</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_tiket"
+                      value="4"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">4</span></label
+                  >
+                </div>
+              </div>
+
+              <!-- Q4 Perlengkapan -->
+              <div class="form-control">
+                <label class="label"
+                  ><span class="label-text font-semibold text-sm"
+                    >4. Bagaimana menurut anda tentang perlengkapan pada acara
+                    ini?</span
+                  ></label
+                >
+                <div
+                  class="flex justify-between items-center bg-base-200/50 p-3 rounded-xl border border-base-200"
+                >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_perlengkapan"
+                      value="1"
+                      class="radio radio-primary radio-sm md:radio-md"
+                      required
+                    /><span class="text-xs font-medium">1</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_perlengkapan"
+                      value="2"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">2</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_perlengkapan"
+                      value="3"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">3</span></label
+                  >
+                  <label class="flex flex-col items-center gap-1 cursor-pointer"
+                    ><input
+                      type="radio"
+                      name="q_perlengkapan"
+                      value="4"
+                      class="radio radio-primary radio-sm md:radio-md"
+                    /><span class="text-xs font-medium">4</span></label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="divider">Masukan Anda</div>
+
+            <!-- Isian Teks -->
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-semibold"
+                  >Hal menarik apa yang paling berkesan dari acara pensi hari
+                  ini?</span
+                ></label
+              >
+              <textarea
+                id="interesting"
+                class="textarea textarea-bordered h-20 font-sans"
+                placeholder="Ceritakan keseruanmu di sini..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-semibold"
+                  >Saran dan masukan untuk kegiatan pentas seni hari ini dan
+                  berikutnya.</span
+                ></label
+              >
+              <textarea
+                id="hope"
+                class="textarea textarea-bordered h-20 font-sans"
+                placeholder="Tuliskan saran yang membangun..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="card-actions mt-8">
+              <button
+                type="submit"
+                id="btnSubmit"
+                class="btn btn-primary w-full shadow-lg font-bold"
+              >
+                Kirim Feedback
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-6 text-center">
+            <button
+              onclick="admin_modal.showModal()"
+              class="btn btn-ghost btn-xs opacity-40 hover:opacity-100"
+            >
+              Login Admin
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: LOGIN ADMIN -->
+    <dialog id="admin_modal" class="modal font-sans">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg text-center mb-4">Akses Administrator</h3>
+        <div class="form-control">
+          <input
+            type="password"
+            id="adminPass"
+            placeholder="Masukkan Password"
+            class="input input-bordered w-full font-sans"
+          />
+          <label id="loginError" class="label hidden"
+            ><span class="label-text-alt text-error font-medium"
+              >Password salah!</span
+            ></label
+          >
+        </div>
+        <div class="modal-action">
+          <button class="btn btn-ghost" onclick="admin_modal.close()">
+            Batal
+          </button>
+          <button class="btn btn-primary" onclick="validateAdmin()">
+            Masuk
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- MODAL: SUKSES SUBMIT -->
+    <dialog id="success_modal" class="modal font-sans">
+      <div class="modal-box text-center">
+        <div class="py-6">
+          <div class="text-6xl mb-4">🎉</div>
+          <h3 class="font-bold text-2xl mb-2 text-primary">
+            Berhasil Terkirim!
+          </h3>
+          <p class="py-2 text-sm leading-relaxed">
+            Terima kasih atas partisipasi anda telah mendukung acara pentas seni
+            tahun ini.<br />
+            <strong>Sampai jumpa di acara pentas seni berikutnya!</strong>
+          </p>
+        </div>
+        <div class="modal-action justify-center">
+          <button
+            class="btn btn-primary text-white px-8 rounded-full"
+            onclick="closeSuccessModal()"
+          >
+            Sama-sama!
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- MODAL: SUKSES LOGIN -->
+    <dialog id="login_success_modal" class="modal font-sans">
+      <div class="modal-box text-center">
+        <h3 class="font-bold text-xl text-success mb-2">Login Berhasil!</h3>
+        <p class="py-2 font-medium">Beralih ke tampilan Admin...</p>
+        <span
+          class="loading loading-spinner loading-lg text-primary mt-4"
+        ></span>
+      </div>
+    </dialog>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDu3FHAOx7GfQ2cOHvQUqaTaihl5D5am1M",
+        authDomain: "feedback-ps.firebaseapp.com",
+        projectId: "feedback-ps",
+        storageBucket: "feedback-ps.firebasestorage.app",
+        messagingSenderId: "912859924568",
+        appId: "1:912859924568:web:2d5a969873c5c24fe0a22d",
+        measurementId: "G-R26LJV224V",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const form = document.getElementById("feedbackForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("btnSubmit");
+        btn.disabled = true;
+        btn.innerHTML =
+          '<span class="loading loading-spinner"></span> Mengirim...';
+
+        try {
+          // Mengambil nilai dari radio button yang dipilih
+          const q_acara = document.querySelector(
+            'input[name="q_acara"]:checked',
+          ).value;
+          const q_konsumsi = document.querySelector(
+            'input[name="q_konsumsi"]:checked',
+          ).value;
+          const q_tiket = document.querySelector(
+            'input[name="q_tiket"]:checked',
+          ).value;
+          const q_perlengkapan = document.querySelector(
+            'input[name="q_perlengkapan"]:checked',
+          ).value;
+
+          await addDoc(collection(db, "comments"), {
+            q_acara: parseInt(q_acara),
+            q_konsumsi: parseInt(q_konsumsi),
+            q_tiket: parseInt(q_tiket),
+            q_perlengkapan: parseInt(q_perlengkapan),
+            interesting: document.getElementById("interesting").value,
+            hope: document.getElementById("hope").value,
+            timestamp: serverTimestamp(),
+          });
+
+          form.reset();
+          success_modal.showModal();
+        } catch (error) {
+          console.error(error);
+          alert("Gagal mengirim feedback. Pastikan koneksi internet stabil.");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = "Kirim Feedback";
+        }
+      });
+
+      // Tutup modal success dan scroll ke atas
+      window.closeSuccessModal = () => {
+        success_modal.close();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      window.validateAdmin = () => {
+        const passInput = document.getElementById("adminPass");
+        const errorLabel = document.getElementById("loginError");
+
+        if (passInput.value === "pensi-sd-scbci-26") {
+          sessionStorage.setItem("admin_auth", "true");
+          admin_modal.close();
+          login_success_modal.showModal();
+          setTimeout(() => {
+            window.location.href = "admin.html";
+          }, 1500);
+        } else {
+          errorLabel.classList.remove("hidden");
+          passInput.classList.add("input-error");
+        }
+      };
+
+      window.toggleTheme = () => {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme_pref", next);
+      };
+
+      const savedTheme = localStorage.getItem("theme_pref") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </body>
+</html>

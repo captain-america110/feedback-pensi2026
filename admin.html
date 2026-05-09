@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Feedback</title>
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .badge-score {
+        width: 20px;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-base-300 min-h-screen font-sans transition-colors duration-300"
+  >
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-md px-4 lg:px-10 sticky top-0 z-50">
+      <div class="flex-1">
+        <a class="text-xl font-bold text-primary">Admin Pensi 📊</a>
+      </div>
+      <div class="flex-none gap-2">
+        <button class="btn btn-ghost btn-circle" onclick="toggleTheme()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 16.243l.707.707M7.757 7.757l.707-.707"
+            />
+          </svg>
+        </button>
+        <button
+          onclick="logout()"
+          class="btn btn-outline btn-error btn-sm font-semibold"
+        >
+          Keluar
+        </button>
+      </div>
+    </div>
+
+    <div class="container mx-auto p-4 lg:p-8 space-y-6">
+      <!-- Statistik Akumulasi Skala -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+          class="stat bg-base-100 rounded-2xl shadow-sm border border-base-200 p-4"
+        >
+          <div class="stat-title text-xs md:text-sm">Rata-rata Acara</div>
+          <div
+            class="stat-value text-primary text-2xl md:text-4xl"
+            id="avgAcara"
+          >
+            0.0
+          </div>
+          <div class="stat-desc">Skala maksimal 4.0</div>
+        </div>
+        <div
+          class="stat bg-base-100 rounded-2xl shadow-sm border border-base-200 p-4"
+        >
+          <div class="stat-title text-xs md:text-sm">Rata-rata Konsumsi</div>
+          <div
+            class="stat-value text-secondary text-2xl md:text-4xl"
+            id="avgKonsumsi"
+          >
+            0.0
+          </div>
+          <div class="stat-desc">Skala maksimal 4.0</div>
+        </div>
+        <div
+          class="stat bg-base-100 rounded-2xl shadow-sm border border-base-200 p-4"
+        >
+          <div class="stat-title text-xs md:text-sm">Rata-rata Tiket</div>
+          <div
+            class="stat-value text-accent text-2xl md:text-4xl"
+            id="avgTiket"
+          >
+            0.0
+          </div>
+          <div class="stat-desc">Skala maksimal 4.0</div>
+        </div>
+        <div
+          class="stat bg-base-100 rounded-2xl shadow-sm border border-base-200 p-4"
+        >
+          <div class="stat-title text-xs md:text-sm">Rata-rata Alat</div>
+          <div class="stat-value text-info text-2xl md:text-4xl" id="avgAlat">
+            0.0
+          </div>
+          <div class="stat-desc">Skala maksimal 4.0</div>
+        </div>
+      </div>
+
+      <!-- Fitur Rangkuman AI -->
+      <div
+        class="card bg-gradient-to-r from-base-100 to-base-200 shadow-xl border border-primary/20"
+      >
+        <div class="card-body">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+          >
+            <div>
+              <h2 class="card-title text-xl text-primary">
+                <span class="text-2xl">✨</span> Asisten Rangkuman AI
+              </h2>
+              <p class="text-sm opacity-70">
+                Gunakan AI untuk membaca ratusan masukan dan menarik kesimpulan
+                utama.
+              </p>
+            </div>
+            <button
+              id="btnAi"
+              class="btn btn-primary"
+              onclick="generateAISummary()"
+            >
+              Buat Rangkuman
+            </button>
+          </div>
+          <div
+            id="aiResult"
+            class="mt-4 hidden p-5 bg-base-300/50 rounded-xl whitespace-pre-wrap text-sm leading-relaxed border border-base-300"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Tabel Detail -->
+      <div
+        class="bg-base-100 rounded-2xl shadow-xl overflow-hidden border border-base-200"
+      >
+        <div
+          class="p-5 bg-base-200 flex flex-col sm:flex-row justify-between items-center gap-2"
+        >
+          <h3 class="font-bold text-lg">Detail Masukan Pengunjung</h3>
+          <div
+            id="dataCount"
+            class="badge badge-primary font-semibold p-3 text-xs shadow-sm"
+          >
+            Memuat...
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="table table-zebra w-full font-sans align-top">
+            <thead class="bg-base-300 font-bold text-sm">
+              <tr>
+                <th class="w-32">Waktu</th>
+                <th class="w-40">Penilaian (Skor)</th>
+                <th class="w-1/3">Hal Menarik</th>
+                <th class="w-1/3">Saran & Masukan</th>
+                <th class="text-center w-20">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="commentTable">
+              <tr>
+                <td colspan="5" class="text-center py-10">
+                  <span class="loading loading-spinner"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: KONFIRMASI HAPUS -->
+    <dialog id="delete_modal" class="modal font-sans">
+      <div class="modal-box border-t-4 border-error">
+        <h3 class="font-bold text-lg text-error flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          Konfirmasi Hapus
+        </h3>
+        <p class="py-4">
+          Apakah Anda yakin ingin menghapus masukan ini secara permanen?
+        </p>
+        <div class="modal-action">
+          <button
+            class="btn btn-ghost font-medium"
+            onclick="delete_modal.close()"
+          >
+            Batal
+          </button>
+          <button
+            id="confirmDeleteBtn"
+            class="btn btn-error text-white font-bold"
+          >
+            Ya, Hapus!
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Bagian Header & Navigasi tetap sama -->
+    <!-- ... -->
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        orderBy,
+        onSnapshot,
+        doc,
+        deleteDoc,
+      } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+      // Pastikan config ini sesuai dengan proyek Tiket Pensi 2026 Anda
+      const firebaseConfig = {
+        apiKey: "AIzaSyDu3FHAOx7GfQ2cOHvQUqaTaihl5D5am1M",
+        authDomain: "feedback-ps.firebaseapp.com",
+        projectId: "feedback-ps",
+        storageBucket: "feedback-ps.firebasestorage.app",
+        messagingSenderId: "912859924568",
+        appId: "1:912859924568:web:2d5a969873c5c24fe0a22d",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const tableBody = document.getElementById("commentTable");
+      const dataCount = document.getElementById("dataCount");
+
+      const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+      onSnapshot(q, (snapshot) => {
+        tableBody.innerHTML = "";
+
+        let sumAcara = 0,
+          sumKonsumsi = 0,
+          sumTiket = 0,
+          sumAlat = 0;
+        // COUNTER: Menghitung hanya dokumen yang ada nilainya
+        let cAcara = 0,
+          cKonsumsi = 0,
+          cTiket = 0,
+          cAlat = 0;
+
+        dataCount.innerText = `${snapshot.size} Feedback Masuk`;
+
+        snapshot.forEach((documentSnap) => {
+          const data = documentSnap.data();
+          const id = documentSnap.id;
+
+          // Konversi ke Number dan cek apakah nilainya ada
+          if (data.q_acara !== undefined) {
+            sumAcara += Number(data.q_acara);
+            cAcara++;
+          }
+          if (data.q_konsumsi !== undefined) {
+            sumKonsumsi += Number(data.q_konsumsi);
+            cKonsumsi++;
+          }
+          if (data.q_tiket !== undefined) {
+            sumTiket += Number(data.q_tiket);
+            cTiket++;
+          }
+          if (data.q_perlengkapan !== undefined) {
+            sumAlat += Number(data.q_perlengkapan);
+            cAlat++;
+          }
+
+          // Render baris tabel (Logika sama seperti sebelumnya)
+          renderRow(id, data);
+        });
+
+        // HITUNG RATA-RATA: Dibagi dengan jumlah pemberi nilai, bukan total dokumen
+        document.getElementById("avgAcara").innerText =
+          cAcara > 0 ? (sumAcara / cAcara).toFixed(1) : "0.0";
+        document.getElementById("avgKonsumsi").innerText =
+          cKonsumsi > 0 ? (sumKonsumsi / cKonsumsi).toFixed(1) : "0.0";
+        document.getElementById("avgTiket").innerText =
+          cTiket > 0 ? (sumTiket / cTiket).toFixed(1) : "0.0";
+        document.getElementById("avgAlat").innerText =
+          cAlat > 0 ? (sumAlat / cAlat).toFixed(1) : "0.0";
+      });
+
+      // Fungsi pembantu render baris agar kode lebih bersih
+      function renderRow(id, data) {
+        const date = data.timestamp
+          ? data.timestamp.toDate().toLocaleString("id-ID")
+          : "...";
+        tableBody.innerHTML += `
+            <tr class="hover">
+                <td class="text-xs opacity-70">${date}</td>
+                <td>
+                    <div class="grid grid-cols-2 gap-1 text-[10px]">
+                        <span>A: ${data.q_acara || "-"}</span> <span>K: ${data.q_konsumsi || "-"}</span>
+                        <span>T: ${data.q_tiket || "-"}</span> <span>P: ${data.q_perlengkapan || "-"}</span>
+                    </div>
+                </td>
+                <td class="whitespace-pre-wrap">${data.interesting || "-"}</td>
+                <td class="whitespace-pre-wrap">${data.hope || "-"}</td>
+                <td class="text-center">
+                    <button onclick="prepareDelete('${id}')" class="btn btn-ghost btn-xs text-error">Hapus</button>
+                </td>
+            </tr>`;
+      }
+
+      // Fungsi logout & delete tetap sama...
+    </script>
+  </body>
+</html>
